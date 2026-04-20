@@ -28,6 +28,7 @@ import {
   SidebarGroupLabel,
   SidebarGroupContent,
 } from '@/components/ui/sidebar';
+import { usePathname } from 'next/navigation';
 import { useRole } from '@/components/role-provider';
 import { 
   DropdownMenu, 
@@ -43,6 +44,7 @@ import { cn } from '@/lib/utils';
 
 export function AppSidebar() {
   const { role, user, setRole } = useRole();
+  const pathname = usePathname();
 
   const menuItems = {
     Estudiante: [
@@ -64,8 +66,6 @@ export function AppSidebar() {
   };
 
   const currentMenuItems = menuItems[role];
-
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
 
   return (
     <Sidebar variant="sidebar" collapsible="icon" className="border-r-0 shadow-xl">

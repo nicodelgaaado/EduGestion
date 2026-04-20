@@ -37,6 +37,7 @@ import {
   CardTitle, 
   CardDescription 
 } from '@/components/ui/card';
+import { RequestDistributionChart } from './request-distribution-chart';
 
 export function AdminDashboard() {
   const { user } = useRole();
@@ -127,10 +128,12 @@ export function AdminDashboard() {
         <Card className="lg:col-span-3 border-none shadow-sm">
           <CardHeader>
             <CardTitle>Métricas de Facultad</CardTitle>
-            <CardDescription>Resumen de asistencia y rendimiento.</CardDescription>
+            <CardDescription>Resumen de asistencia and rendimiento.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 pt-2">
-            <div className="space-y-4">
+            <RequestDistributionChart />
+            
+            <div className="space-y-4 mt-6">
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-medium">Ingeniería de Sistemas</span>

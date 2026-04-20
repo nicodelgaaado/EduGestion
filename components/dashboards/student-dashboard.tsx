@@ -33,6 +33,7 @@ import {
 import { mockRequests, mockSubjects } from '@/lib/mock-data';
 import { useRole } from '@/components/role-provider';
 import { cn } from '@/lib/utils';
+import { AttendanceChart } from './attendance-chart';
 
 export function StudentDashboard() {
   const { user } = useRole();
@@ -162,7 +163,9 @@ export function StudentDashboard() {
             <CardDescription>Cumplimiento por materia en el semestre actual.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6 pt-4">
-            <div className="space-y-2">
+            <AttendanceChart />
+            
+            <div className="space-y-2 mt-6">
               <div className="flex items-center justify-between text-sm">
                 <span className="font-medium">Promedio General</span>
                 <span className="font-bold text-primary">88%</span>

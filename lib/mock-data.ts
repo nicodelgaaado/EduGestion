@@ -1,4 +1,3 @@
-
 import { AcademicRequest, AttendanceRecord, Justification, User, Subject } from '../types';
 
 export const mockUsers: User[] = [
@@ -103,6 +102,31 @@ export const mockAttendance: AttendanceRecord[] = [
   { id: 'a3', subjectId: 's1', studentId: 'u1', studentName: 'Estudiante Demo', date: '2026-03-30', status: 'Tarde' },
   { id: 'a4', subjectId: 's1', studentId: 'u5', studentName: 'Estudiante Secundario', date: '2026-04-13', status: 'Presente' },
   { id: 'a5', subjectId: 's1', studentId: 'u5', studentName: 'Estudiante Secundario', date: '2026-04-06', status: 'Presente' },
+  { id: 'a6', subjectId: 's1', studentId: 'u1', studentName: 'Estudiante Demo', date: '2026-03-23', status: 'Presente' },
+  { id: 'a7', subjectId: 's1', studentId: 'u1', studentName: 'Estudiante Demo', date: '2026-03-16', status: 'Presente' },
+  { id: 'a8', subjectId: 's1', studentId: 'u1', studentName: 'Estudiante Demo', date: '2026-03-09', status: 'Presente' },
+  { id: 'a9', subjectId: 's2', studentId: 'u1', studentName: 'Estudiante Demo', date: '2026-04-15', status: 'Presente' },
+  { id: 'a10', subjectId: 's2', studentId: 'u1', studentName: 'Estudiante Demo', date: '2026-04-08', status: 'Tarde' },
+  { id: 'a11', subjectId: 's2', studentId: 'u1', studentName: 'Estudiante Demo', date: '2026-04-01', status: 'Presente' },
+];
+
+export const mockAttendanceTrends = [
+  { date: '2026-03-01', presente: 85, ausente: 10, tarde: 5 },
+  { date: '2026-03-08', presente: 88, ausente: 8, tarde: 4 },
+  { date: '2026-03-15', presente: 92, ausente: 5, tarde: 3 },
+  { date: '2026-03-22', presente: 80, ausente: 15, tarde: 5 },
+  { date: '2026-03-29', presente: 84, ausente: 10, tarde: 6 },
+  { date: '2026-04-05', presente: 90, ausente: 7, tarde: 3 },
+  { date: '2026-04-12', presente: 95, ausente: 3, tarde: 2 },
+  { date: '2026-04-19', presente: 87, ausente: 8, tarde: 5 },
+];
+
+export const mockRequestDistribution = [
+  { type: 'Justificación', count: 420, fill: "var(--color-justificacion)" },
+  { type: 'Calificación', count: 310, fill: "var(--color-calificacion)" },
+  { type: 'Constancia', count: 280, fill: "var(--color-constancia)" },
+  { type: 'Cambio Grupo', count: 150, fill: "var(--color-cambio)" },
+  { type: 'Prórroga', count: 90, fill: "var(--color-prorroga)" },
 ];
 
 export const mockJustifications: Justification[] = [

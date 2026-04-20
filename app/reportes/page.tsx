@@ -3,6 +3,8 @@
 
 import React from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
+import { AttendanceChart } from "@/components/dashboards/attendance-chart";
+import { RequestDistributionChart } from "@/components/dashboards/request-distribution-chart";
 import { 
   Card, 
   CardContent, 
@@ -115,74 +117,21 @@ export default function ReportesPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Card className="border-none shadow-sm">
             <CardHeader>
-              <CardTitle>Tipos de Solicitudes más frecuentes</CardTitle>
-              <CardDescription>Distribución porcentual de trámites académicos.</CardDescription>
+              <CardTitle>Distribución de Solicitudes</CardTitle>
+              <CardDescription>Trámites académicos procesados por tipo.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6 pt-2">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs font-bold">
-                  <span>Justificación de inasistencia</span>
-                  <span className="text-primary">42%</span>
-                </div>
-                <Progress value={42} className="h-2" />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs font-bold">
-                  <span>Revisión de calificación</span>
-                  <span className="text-primary">28%</span>
-                </div>
-                <Progress value={28} className="h-2" />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs font-bold">
-                  <span>Cambio de grupo</span>
-                  <span className="text-primary">15%</span>
-                </div>
-                <Progress value={15} className="h-2" />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs font-bold">
-                  <span>Otros</span>
-                  <span className="text-primary">15%</span>
-                </div>
-                <Progress value={15} className="h-2" />
-              </div>
+            <CardContent className="pt-2">
+              <RequestDistributionChart />
             </CardContent>
           </Card>
 
           <Card className="border-none shadow-sm">
             <CardHeader>
-              <CardTitle>Solicitudes por Facultad</CardTitle>
-              <CardDescription>Resumen de actividad académica institucional.</CardDescription>
+              <CardTitle>Tendencia de Asistencia</CardTitle>
+              <CardDescription>Evolución del cumplimiento académico en las últimas semanas.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4 pt-2">
-              <div className="flex items-center justify-between p-4 rounded-xl border bg-muted/10">
-                <div>
-                  <p className="text-sm font-bold">Ingeniería de Sistemas</p>
-                  <p className="text-[10px] text-muted-foreground font-medium">342 solicitudes atendidas</p>
-                </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-primary/5 hover:text-primary transition-all">
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="flex items-center justify-between p-4 rounded-xl border bg-muted/10">
-                <div>
-                  <p className="text-sm font-bold">Arquitectura y Diseño</p>
-                  <p className="text-[10px] text-muted-foreground font-medium">128 solicitudes atendidas</p>
-                </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-primary/5 hover:text-primary transition-all">
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
-              <div className="flex items-center justify-between p-4 rounded-xl border bg-muted/10">
-                <div>
-                  <p className="text-sm font-bold">Administración de Empresas</p>
-                  <p className="text-[10px] text-muted-foreground font-medium">215 solicitudes atendidas</p>
-                </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-lg hover:bg-primary/5 hover:text-primary transition-all">
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
+            <CardContent className="pt-2">
+              <AttendanceChart />
             </CardContent>
           </Card>
         </div>
