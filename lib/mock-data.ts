@@ -4,29 +4,29 @@ import { AcademicRequest, AttendanceRecord, Justification, User, Subject } from 
 export const mockUsers: User[] = [
   {
     id: 'u1',
-    name: 'Juan Pérez',
-    email: 'juan.perez@universidad.edu',
+    name: 'Estudiante Demo',
+    email: 'estudiante@universidad.edu',
     role: 'Estudiante',
     career: 'Ingeniería de Sistemas',
     semester: 5,
     idNumber: '2021-0001',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Juan'
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Estudiante'
   },
   {
     id: 'u2',
-    name: 'Dra. María García',
-    email: 'm.garcia@universidad.edu',
+    name: 'Docente Demo',
+    email: 'docente@universidad.edu',
     role: 'Docente',
     idNumber: 'D-0452',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Maria'
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Docente'
   },
   {
     id: 'u3',
-    name: 'Ing. Carlos Mendoza',
-    email: 'c.mendoza@universidad.edu',
+    name: 'Administrador Demo',
+    email: 'admin@universidad.edu',
     role: 'Coordinación',
     idNumber: 'C-0112',
-    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Carlos'
+    avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Admin'
   }
 ];
 
@@ -40,10 +40,10 @@ export const mockRequests: AcademicRequest[] = [
   {
     id: 'REQ-001',
     studentId: 'u1',
-    studentName: 'Juan Pérez',
+    studentName: 'Estudiante Demo',
     type: 'Justificación de inasistencia',
     subject: 'Arquitectura de Software',
-    teacherName: 'Dra. María García',
+    teacherName: 'Docente Demo',
     date: '2026-04-15',
     priority: 'Media',
     status: 'Pendiente',
@@ -51,69 +51,69 @@ export const mockRequests: AcademicRequest[] = [
     description: 'Adjunto constancia de la cita médica realizada el día 15 de abril.',
     comments: [],
     history: [
-      { id: 'h1', status: 'Pendiente', date: '2026-04-15', updatedBy: 'Juan Pérez', comment: 'Solicitud creada' }
+      { id: 'h1', status: 'Pendiente', date: '2026-04-15', updatedBy: 'Estudiante Demo', comment: 'Solicitud creada' }
     ]
   },
   {
     id: 'REQ-002',
     studentId: 'u1',
-    studentName: 'Juan Pérez',
+    studentName: 'Estudiante Demo',
     type: 'Revisión de calificación',
     subject: 'Bases de Datos II',
-    teacherName: 'Dra. María García',
+    teacherName: 'Docente Demo',
     date: '2026-04-10',
     priority: 'Baja',
     status: 'Aprobada',
     reason: 'Error en la suma del examen parcial',
     description: 'En el punto 3 obtuve 1.5 pero se sumó como 0.5.',
     comments: [
-      { id: 'c1', userId: 'u2', userName: 'Dra. María García', userRole: 'Docente', content: 'Revisado y corregido.', date: '2026-04-12' }
+      { id: 'c1', userId: 'u2', userName: 'Docente Demo', userRole: 'Docente', content: 'Revisado y corregido.', date: '2026-04-12' }
     ],
     history: [
-      { id: 'h1', status: 'Pendiente', date: '2026-04-10', updatedBy: 'Juan Pérez' },
-      { id: 'h2', status: 'En revisión', date: '2026-04-11', updatedBy: 'Dra. María García' },
-      { id: 'h3', status: 'Aprobada', date: '2026-04-12', updatedBy: 'Dra. María García', comment: 'Calificación actualizada en el sistema.' }
+      { id: 'h1', status: 'Pendiente', date: '2026-04-10', updatedBy: 'Estudiante Demo' },
+      { id: 'h2', status: 'En revisión', date: '2026-04-11', updatedBy: 'Docente Demo' },
+      { id: 'h3', status: 'Aprobada', date: '2026-04-12', updatedBy: 'Docente Demo', comment: 'Calificación actualizada en el sistema.' }
     ]
   },
   {
     id: 'REQ-003',
     studentId: 'u5',
-    studentName: 'Ana Martínez',
+    studentName: 'Estudiante Secundario',
     type: 'Prórroga de entrega',
     subject: 'Arquitectura de Software',
-    teacherName: 'Dra. María García',
+    teacherName: 'Docente Demo',
     date: '2026-04-18',
     priority: 'Alta',
     status: 'Requiere información',
     reason: 'Falla técnica en equipo personal',
     description: 'Mi laptop sufrió un daño crítico y estoy esperando reparación.',
     comments: [
-      { id: 'c2', userId: 'u2', userName: 'Dra. María García', userRole: 'Docente', content: 'Por favor adjunta el reporte técnico del servicio.', date: '2026-04-19' }
+      { id: 'c2', userId: 'u2', userName: 'Docente Demo', userRole: 'Docente', content: 'Por favor adjunta el reporte técnico del servicio.', date: '2026-04-19' }
     ],
     history: [
-      { id: 'h1', status: 'Pendiente', date: '2026-04-18', updatedBy: 'Ana Martínez' },
-      { id: 'h2', status: 'Requiere información', date: '2026-04-19', updatedBy: 'Dra. María García' }
+      { id: 'h1', status: 'Pendiente', date: '2026-04-18', updatedBy: 'Estudiante Secundario' },
+      { id: 'h2', status: 'Requiere información', date: '2026-04-19', updatedBy: 'Docente Demo' }
     ]
   }
 ];
 
 export const mockAttendance: AttendanceRecord[] = [
-  { id: 'a1', subjectId: 's1', studentId: 'u1', studentName: 'Juan Pérez', date: '2026-04-13', status: 'Presente' },
-  { id: 'a2', subjectId: 's1', studentId: 'u1', studentName: 'Juan Pérez', date: '2026-04-06', status: 'Ausente' },
-  { id: 'a3', subjectId: 's1', studentId: 'u1', studentName: 'Juan Pérez', date: '2026-03-30', status: 'Tarde' },
-  { id: 'a4', subjectId: 's1', studentId: 'u5', studentName: 'Ana Martínez', date: '2026-04-13', status: 'Presente' },
-  { id: 'a5', subjectId: 's1', studentId: 'u5', studentName: 'Ana Martínez', date: '2026-04-06', status: 'Presente' },
+  { id: 'a1', subjectId: 's1', studentId: 'u1', studentName: 'Estudiante Demo', date: '2026-04-13', status: 'Presente' },
+  { id: 'a2', subjectId: 's1', studentId: 'u1', studentName: 'Estudiante Demo', date: '2026-04-06', status: 'Ausente' },
+  { id: 'a3', subjectId: 's1', studentId: 'u1', studentName: 'Estudiante Demo', date: '2026-03-30', status: 'Tarde' },
+  { id: 'a4', subjectId: 's1', studentId: 'u5', studentName: 'Estudiante Secundario', date: '2026-04-13', status: 'Presente' },
+  { id: 'a5', subjectId: 's1', studentId: 'u5', studentName: 'Estudiante Secundario', date: '2026-04-06', status: 'Presente' },
 ];
 
 export const mockJustifications: Justification[] = [
   {
     id: 'j1',
     studentId: 'u1',
-    studentName: 'Juan Pérez',
+    studentName: 'Estudiante Demo',
     attendanceId: 'a2',
     date: '2026-04-07',
     reason: 'Cita médica odontológica',
     status: 'Aprobada',
-    reviewedBy: 'Dra. María García'
+    reviewedBy: 'Docente Demo'
   }
 ];

@@ -37,18 +37,29 @@ import {
   Sheet, 
   SheetContent 
 } from '@/components/ui/sheet';
-import { RequestDetail } from './request-detail';
+import { RequestDetail } from '@/components/requests/request-detail';
 
 export function RequestTable() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [requests, setRequests] = useState<AcademicRequest[]>(mockRequests);
   const [selectedRequest, setSelectedRequest] = useState<AcademicRequest | null>(null);
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
-  const filteredRequests = mockRequests.filter(req => 
+  const filteredRequests = requests.filter(req => 
     req.studentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     req.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     req.type.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const updateRequestStatus = (id: string, newStatus: AcademicRequest['status']) => {
+    setRequests(prev => prev.map(req => 
+      req.id === id ? { ...req, status: newStatus } : req
+    ));
+    // If the selected request is the one being updated, update it too
+    if (selectedRequest?.id === id) {
+      setSelectedRequest(prev => prev ? { ...prev, status: newStatus } : null);
+    }
+  };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -135,13 +146,13 @@ export function RequestTable() {
                         <Eye className="mr-2 h-4 w-4" /> Ver detalles
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-green-600">
+                      <DropdownMenuItem className="text-green-600" onClick={() => updateRequestStatus(req.id, 'Aprobada')}>
                         <CheckCircle className="mr-2 h-4 w-4" /> Aprobar
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="text-red-600">
+                      <DropdownMenuItem className="text-red-600" onClick={() => updateRequestStatus(req.id, 'Rechazada')}>
                         <XCircle className="mr-2 h-4 w-4" /> Rechazar
                       </DropdownMenuItem>
-                      <DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => updateRequestStatus(req.id, 'Requiere información')}>
                         <Clock className="mr-2 h-4 w-4" /> Pedir información
                       </DropdownMenuItem>
                     </DropdownMenuContent>

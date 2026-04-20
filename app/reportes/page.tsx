@@ -10,20 +10,31 @@ import {
   CardTitle, 
   CardDescription 
 } from '@/components/ui/card';
-import { 
-  BarChart3, 
-  TrendingUp, 
-  TrendingDown, 
-  PieChart, 
+import {
+  BarChart3,
+  TrendingUp,
+  TrendingDown,
+  PieChart,
   Calendar,
   Download,
   Filter,
-  ArrowRight
+  ArrowRight,
+  Loader2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 
 export default function ReportesPage() {
+  const [loading, setLoading] = React.useState<string | null>(null);
+
+  const handleAction = (name: string) => {
+    setLoading(name);
+    setTimeout(() => {
+      setLoading(null);
+      alert(`Reporte generado: ${name}`);
+    }, 1500);
+  };
+
   return (
     <DashboardLayout>
       <div className="space-y-8 animate-in fade-in duration-500">
@@ -33,12 +44,22 @@ export default function ReportesPage() {
             <p className="text-muted-foreground text-sm font-medium">Análisis detallado de solicitudes, asistencias y rendimiento académico.</p>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" className="h-10 px-4 font-bold text-xs border-2 hover:bg-muted/50 transition-all">
-              <Filter className="mr-2 h-3.5 w-3.5" />
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-10 px-4 font-bold text-xs border-2 hover:bg-muted/50 transition-all"
+              onClick={() => handleAction('Filtrar Periodo')}
+              disabled={!!loading}
+            >
+              {loading === 'Filtrar Periodo' ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> : <Filter className="mr-2 h-3.5 w-3.5" />}
               Filtrar Periodo
             </Button>
-            <Button className="h-10 px-6 font-bold text-xs shadow-lg shadow-primary/20">
-              <Download className="mr-2 h-3.5 w-3.5" />
+            <Button 
+              className="h-10 px-6 font-bold text-xs shadow-lg shadow-primary/20"
+              onClick={() => handleAction('Descargar PDF')}
+              disabled={!!loading}
+            >
+              {loading === 'Descargar PDF' ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> : <Download className="mr-2 h-3.5 w-3.5" />}
               Descargar PDF
             </Button>
           </div>

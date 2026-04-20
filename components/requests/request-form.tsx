@@ -42,7 +42,8 @@ import {
   GraduationCap,
   BookOpen,
   UserCheck,
-  AlertCircle
+  AlertCircle,
+  CheckCircle2
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -53,6 +54,7 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 
 export function RequestForm() {
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
   const form = useForm({
     defaultValues: {
       type: '',
@@ -67,8 +69,37 @@ export function RequestForm() {
 
   const onSubmit = (data: any) => {
     console.log(data);
-    alert('Solicitud enviada correctamente (Simulado)');
+    setIsSubmitted(true);
   };
+
+  if (isSubmitted) {
+    return (
+      <div className="flex flex-col items-center justify-center p-12 space-y-6 text-center animate-in fade-in zoom-in duration-500">
+        <div className="bg-green-100 text-green-600 p-4 rounded-full shadow-lg shadow-green-100/50">
+          <CheckCircle2 className="h-12 w-12" />
+        </div>
+        <div className="space-y-2">
+          <h2 className="text-2xl font-black tracking-tight">¡Solicitud Enviada!</h2>
+          <p className="text-sm text-muted-foreground font-medium max-w-xs mx-auto">
+            Tu trámite ha sido registrado con éxito. Podrás consultar el estado en tu bandeja de solicitudes.
+          </p>
+        </div>
+        <div className="bg-muted/30 p-4 rounded-2xl border border-border/50 w-full max-w-xs space-y-2">
+          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+            <span>Radicado</span>
+            <span className="text-foreground">REQ-9382</span>
+          </div>
+          <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+            <span>Fecha</span>
+            <span className="text-foreground">{format(new Date(), "dd/MM/yyyy")}</span>
+          </div>
+        </div>
+        <Button onClick={() => window.location.reload()} className="h-11 px-8 rounded-full font-bold text-xs shadow-lg shadow-primary/20 transition-all active:scale-95">
+          Entendido
+        </Button>
+      </div>
+    );
+  }
 
   const requestTypes: RequestType[] = [
     'Justificación de inasistencia',

@@ -38,7 +38,8 @@ import {
   XCircle,
   Plus,
   ArrowRight,
-  Database
+  Database,
+  Loader2
 } from 'lucide-react';
 import { 
   Accordion, 
@@ -49,6 +50,16 @@ import {
 import { Switch } from '@/components/ui/switch';
 
 export default function AdminPage() {
+  const [loading, setLoading] = React.useState<string | null>(null);
+
+  const handleAction = (name: string) => {
+    setLoading(name);
+    setTimeout(() => {
+      setLoading(null);
+      alert(`Acción ejecutada: ${name}`);
+    }, 1000);
+  };
+
   const requestTypes = [
     { name: 'Justificación de inasistencia', time: '48h', autoApprove: false, status: 'Activo' },
     { name: 'Revisión de calificación', time: '72h', autoApprove: false, status: 'Activo' },
@@ -64,8 +75,13 @@ export default function AdminPage() {
             <h1 className="text-3xl font-bold tracking-tight">Gestión Académica</h1>
             <p className="text-muted-foreground text-sm font-medium">Configuración de procesos, catálogos y reglas institucionales.</p>
           </div>
-          <Button className="h-10 px-6 font-bold text-xs shadow-lg shadow-primary/20">
-            <Plus className="h-4 w-4 mr-2" /> Nuevo Catálogo
+          <Button 
+            className="h-10 px-6 font-bold text-xs shadow-lg shadow-primary/20"
+            onClick={() => handleAction('Nuevo Catálogo')}
+            disabled={!!loading}
+          >
+            {loading === 'Nuevo Catálogo' ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Plus className="h-4 w-4 mr-2" />}
+            Nuevo Catálogo
           </Button>
         </div>
 
@@ -108,8 +124,14 @@ export default function AdminPage() {
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right px-6">
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-lg">
-                            <Settings className="h-4 w-4" />
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 rounded-lg"
+                            onClick={() => handleAction(`Configurar ${type.name}`)}
+                            disabled={!!loading}
+                          >
+                            {loading === `Configurar ${type.name}` ? <Loader2 className="h-4 w-4 animate-spin" /> : <Settings className="h-4 w-4" />}
                           </Button>
                         </TableCell>
                       </TableRow>
@@ -175,7 +197,15 @@ export default function AdminPage() {
                       <p className="text-[10px] font-bold text-primary uppercase tracking-widest">Atención Estándar</p>
                       <p className="text-sm font-black">72 Horas</p>
                     </div>
-                    <Button className="w-full text-xs font-bold h-9 mt-4" variant="secondary">Actualizar Plazos</Button>
+                    <Button 
+                      className="w-full text-xs font-bold h-9 mt-4" 
+                      variant="secondary"
+                      onClick={() => handleAction('Actualizar Plazos')}
+                      disabled={!!loading}
+                    >
+                      {loading === 'Actualizar Plazos' ? <Loader2 className="h-3 w-3 mr-2 animate-spin" /> : null}
+                      Actualizar Plazos
+                    </Button>
                   </CardContent>
                 </Card>
               </div>
@@ -202,13 +232,22 @@ export default function AdminPage() {
                   </TableHeader>
                   <TableBody>
                     <TableRow className="bg-rose-50/20">
-                      <TableCell className="px-6 font-bold text-sm">Juan Pérez</TableCell>
+                      <TableCell className="px-6 font-bold text-sm">Estudiante Demo</TableCell>
                       <TableCell className="px-6 text-xs font-medium">Baja asistencia recurrente (65%)</TableCell>
                       <TableCell className="px-6">
                         <Badge variant="destructive" className="h-5 px-2 text-[9px] font-bold uppercase">Crítica</Badge>
                       </TableCell>
                       <TableCell className="text-right px-6">
-                        <Button variant="outline" size="sm" className="h-8 text-xs font-bold border-rose-200 text-rose-700 bg-white hover:bg-rose-50">Citar a entrevista</Button>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="h-8 text-xs font-bold border-rose-200 text-rose-700 bg-white hover:bg-rose-50"
+                          onClick={() => handleAction('Citar a entrevista')}
+                          disabled={!!loading}
+                        >
+                          {loading === 'Citar a entrevista' ? <Loader2 className="h-3 w-3 mr-2 animate-spin" /> : null}
+                          Citar a entrevista
+                        </Button>
                       </TableCell>
                     </TableRow>
                   </TableBody>

@@ -5,7 +5,7 @@ import React from 'react';
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { RequestTable } from "@/components/requests/request-table";
 import { Button } from "@/components/ui/button";
-import { Plus, Download, FileSpreadsheet } from "lucide-react";
+import { Plus, Download, FileSpreadsheet, Loader2, CheckCircle } from "lucide-react";
 import { useRole } from "@/components/role-provider";
 import { 
   Dialog, 
@@ -15,9 +15,21 @@ import {
   DialogTrigger 
 } from "@/components/ui/dialog";
 import { RequestForm } from "@/components/requests/request-form";
+import { useState } from 'react';
 
 export default function SolicitudesPage() {
   const { role } = useRole();
+  const [exporting, setExporting] = useState<'pdf' | 'excel' | null>(null);
+  const [success, setSuccess] = useState<'pdf' | 'excel' | null>(null);
+
+  const handleExport = (type: 'pdf' | 'excel') => {
+    setExporting(type);
+    setTimeout(() => {
+      setExporting(null);
+      setSuccess(type);
+      setTimeout(() => setSuccess(null), 3000);
+    }, 1500);
+  };
 
   return (
     <DashboardLayout>
@@ -32,13 +44,37 @@ export default function SolicitudesPage() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <Button variant="outline" size="sm" className="h-10 px-4 font-semibold text-xs border-2 hover:bg-muted/50 transition-all">
-              <Download className="mr-2 h-3.5 w-3.5" />
-              Exportar PDF
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-10 px-4 font-semibold text-xs border-2 hover:bg-muted/50 transition-all"
+              onClick={() => handleExport('pdf')}
+              disabled={!!exporting}
+            >
+              {exporting === 'pdf' ? (
+                <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+              ) : success === 'pdf' ? (
+                <CheckCircle className="mr-2 h-3.5 w-3.5 text-green-500" />
+              ) : (
+                <Download className="mr-2 h-3.5 w-3.5" />
+              )}
+              {exporting === 'pdf' ? 'Exportando...' : success === 'pdf' ? '¡Listo!' : 'Exportar PDF'}
             </Button>
-            <Button variant="outline" size="sm" className="h-10 px-4 font-semibold text-xs border-2 hover:bg-muted/50 transition-all">
-              <FileSpreadsheet className="mr-2 h-3.5 w-3.5" />
-              Excel
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="h-10 px-4 font-semibold text-xs border-2 hover:bg-muted/50 transition-all"
+              onClick={() => handleExport('excel')}
+              disabled={!!exporting}
+            >
+              {exporting === 'excel' ? (
+                <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+              ) : success === 'excel' ? (
+                <CheckCircle className="mr-2 h-3.5 w-3.5 text-green-500" />
+              ) : (
+                <FileSpreadsheet className="mr-2 h-3.5 w-3.5" />
+              )}
+              {exporting === 'excel' ? 'Generando...' : success === 'excel' ? '¡Listo!' : 'Excel'}
             </Button>
             {role === 'Estudiante' && (
               <Dialog>

@@ -107,7 +107,7 @@ export default function AsistenciaPage() {
                     <TableRow key={record.id}>
                       <TableCell className="px-6">
                         <p className="text-sm font-bold">{subject?.name}</p>
-                        <p className="text-[10px] text-muted-foreground font-medium">Prof. {subject?.teacherId === 'u2' ? 'Dra. María García' : 'Ing. Carlos Mendoza'}</p>
+                        <p className="text-[10px] text-muted-foreground font-medium">Prof. {subject?.teacherId === 'u2' ? 'Docente Demo' : 'Administrador Demo'}</p>
                       </TableCell>
                       <TableCell className="px-6 text-sm font-medium">{record.date}</TableCell>
                       <TableCell className="px-6">{getStatusBadge(record.status)}</TableCell>

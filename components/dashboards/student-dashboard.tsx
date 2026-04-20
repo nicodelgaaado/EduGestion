@@ -9,14 +9,15 @@ import {
   CardTitle, 
   CardDescription 
 } from '@/components/ui/card';
-import { 
-  FileText, 
-  CheckCircle2, 
-  Clock, 
+import {
+  FileText,
+  CheckCircle2,
+  Clock,
   AlertCircle,
   TrendingUp,
   CalendarDays,
-  GraduationCap
+  GraduationCap,
+  Loader2
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -31,10 +32,20 @@ import {
 } from '@/components/ui/table';
 import { mockRequests, mockSubjects } from '@/lib/mock-data';
 import { useRole } from '@/components/role-provider';
+import { cn } from '@/lib/utils';
 
 export function StudentDashboard() {
   const { user } = useRole();
+  const [loading, setLoading] = React.useState<'agenda' | 'carnet' | null>(null);
   const recentRequests = mockRequests.filter(r => r.studentId === user.id).slice(0, 3);
+
+  const handleAction = (type: 'agenda' | 'carnet') => {
+    setLoading(type);
+    setTimeout(() => {
+      setLoading(null);
+      alert(type === 'agenda' ? 'Abriendo agenda académica...' : 'Generando carnet digital...');
+    }, 1000);
+  };
 
   const stats = [
     { title: 'Solicitudes Totales', value: '8', icon: FileText, color: 'text-blue-600', bg: 'bg-blue-50' },
@@ -44,28 +55,55 @@ export function StudentDashboard() {
   ];
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Bienvenido, {user.name}</h1>
-        <p className="text-muted-foreground mt-1">
-          {user.career} • Semestre {user.semester} • ID: {user.idNumber}
-        </p>
+    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-black tracking-tighter text-foreground/90">Bienvenido, {user.name}</h1>
+          <p className="text-muted-foreground mt-1 font-medium flex items-center gap-2">
+            <Badge variant="secondary" className="rounded-md font-bold text-[10px]">{user.career}</Badge>
+            <span className="text-xs">• Semestre {user.semester} • ID: {user.idNumber}</span>
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="rounded-full h-9 font-bold text-xs"
+            onClick={() => handleAction('agenda')}
+            disabled={!!loading}
+          >
+            {loading === 'agenda' ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <CalendarDays className="h-4 w-4 mr-2" />}
+            Agenda
+          </Button>
+          <Button 
+            size="sm" 
+            className="rounded-full h-9 font-bold text-xs shadow-lg shadow-primary/20"
+            onClick={() => handleAction('carnet')}
+            disabled={!!loading}
+          >
+            {loading === 'carnet' ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}
+            Descargar Carnet
+          </Button>
+        </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <Card key={stat.title} className="border-none shadow-sm bg-card/50 backdrop-blur-sm">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat, i) => (
+          <Card key={stat.title} className={cn(
+            "border-none shadow-sm bg-card/50 backdrop-blur-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group",
+            `animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both delay-[${i * 100}ms]`
+          )}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-              <div className={`${stat.bg} ${stat.color} p-2 rounded-lg`}>
+              <CardTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground">{stat.title}</CardTitle>
+              <div className={cn(stat.bg, stat.color, "p-2 rounded-xl transition-transform group-hover:scale-110 group-hover:rotate-3")}>
                 <stat.icon className="h-4 w-4" />
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <p className="text-xs text-muted-foreground mt-1">
-                <span className="text-green-600 font-medium inline-flex items-center">
-                  <TrendingUp className="h-3 w-3 mr-1" /> +12%
+              <div className="text-3xl font-black tracking-tight">{stat.value}</div>
+              <p className="text-[10px] text-muted-foreground mt-2 font-bold uppercase tracking-wider">
+                <span className="text-green-600 inline-flex items-center mr-1">
+                  <TrendingUp className="h-3 w-3 mr-0.5" /> +12%
                 </span> vs mes pasado
               </p>
             </CardContent>
@@ -108,7 +146,11 @@ export function StudentDashboard() {
                 ))}
               </TableBody>
             </Table>
-            <Button variant="ghost" className="w-full mt-4 text-primary font-medium hover:bg-primary/5">
+            <Button 
+              variant="ghost" 
+              className="w-full mt-4 text-primary font-medium hover:bg-primary/5"
+              onClick={() => window.location.href = '/solicitudes'}
+            >
               Ver todas las solicitudes
             </Button>
           </CardContent>

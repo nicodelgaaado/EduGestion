@@ -35,7 +35,8 @@ import {
   CheckCircle,
   XCircle,
   ExternalLink,
-  Clock
+  Clock,
+  Loader2
 } from 'lucide-react';
 import { AcademicRequest } from '@/types';
 
@@ -44,6 +45,16 @@ interface RequestDetailProps {
 }
 
 export function RequestDetail({ request }: RequestDetailProps) {
+  const [loading, setLoading] = React.useState<string | null>(null);
+
+  const handleAction = (name: string) => {
+    setLoading(name);
+    setTimeout(() => {
+      setLoading(null);
+      alert(`Acción procesada: ${name}`);
+    }, 1200);
+  };
+
   return (
     <div className="flex flex-col h-full">
       <SheetHeader className="pb-6 border-b">
@@ -117,10 +128,16 @@ export function RequestDetail({ request }: RequestDetailProps) {
               <div className="space-y-2">
                 <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-semibold">Evidencias Adjuntas</p>
                 <div className="flex flex-wrap gap-2">
-                  <Button variant="outline" size="sm" className="h-9 px-3 text-xs gap-2 rounded-lg hover:bg-muted/50 border-dashed border-2">
-                    <Paperclip className="h-3.5 w-3.5" />
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="h-9 px-3 text-xs gap-2 rounded-lg hover:bg-muted/50 border-dashed border-2"
+                    onClick={() => handleAction('Descargar Evidencia')}
+                    disabled={!!loading}
+                  >
+                    {loading === 'Descargar Evidencia' ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Paperclip className="h-3.5 w-3.5" />}
                     constancia_medica.pdf
-                    <ExternalLink className="h-3 w-3 ml-1 opacity-50" />
+                    {!loading && <ExternalLink className="h-3 w-3 ml-1 opacity-50" />}
                   </Button>
                 </div>
               </div>
@@ -157,8 +174,13 @@ export function RequestDetail({ request }: RequestDetailProps) {
                   placeholder="Escribe un comentario..." 
                   className="text-xs min-h-25 bg-muted/20 border-transparent focus-visible:ring-1 focus-visible:ring-primary focus-visible:bg-background transition-all"
                 />
-                <Button className="w-full text-xs font-bold h-10 shadow-sm" size="sm">
-                  <MessageSquare className="h-3.5 w-3.5 mr-2" />
+                <Button 
+                  className="w-full text-xs font-bold h-10 shadow-sm" 
+                  size="sm"
+                  onClick={() => handleAction('Añadir comentario')}
+                  disabled={!!loading}
+                >
+                  {loading === 'Añadir comentario' ? <Loader2 className="h-3.5 w-3.5 mr-2 animate-spin" /> : <MessageSquare className="h-3.5 w-3.5 mr-2" />}
                   Añadir comentario
                 </Button>
               </div>
@@ -193,17 +215,31 @@ export function RequestDetail({ request }: RequestDetailProps) {
 
       <SheetFooter className="gap-2 sm:gap-0 sm:flex-col pb-6">
         <div className="grid grid-cols-2 gap-3 w-full">
-          <Button variant="outline" className="text-xs font-bold border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 h-10">
-            <XCircle className="h-3.5 w-3.5 mr-2" />
+          <Button 
+            variant="outline" 
+            className="text-xs font-bold border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 h-10"
+            onClick={() => handleAction('Rechazar')}
+            disabled={!!loading}
+          >
+            {loading === 'Rechazar' ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-2" /> : <XCircle className="h-3.5 w-3.5 mr-2" />}
             Rechazar
           </Button>
-          <Button className="text-xs font-bold bg-green-600 hover:bg-green-700 h-10">
-            <CheckCircle className="h-3.5 w-3.5 mr-2" />
+          <Button 
+            className="text-xs font-bold bg-green-600 hover:bg-green-700 h-10"
+            onClick={() => handleAction('Aprobar')}
+            disabled={!!loading}
+          >
+            {loading === 'Aprobar' ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-2" /> : <CheckCircle className="h-3.5 w-3.5 mr-2" />}
             Aprobar
           </Button>
         </div>
-        <Button variant="secondary" className="w-full mt-3 text-xs font-bold h-10">
-          <Clock className="h-3.5 w-3.5 mr-2" />
+        <Button 
+          variant="secondary" 
+          className="w-full mt-3 text-xs font-bold h-10"
+          onClick={() => handleAction('Pedir información')}
+          disabled={!!loading}
+        >
+          {loading === 'Pedir información' ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-2" /> : <Clock className="h-3.5 w-3.5 mr-2" />}
           Solicitar más información
         </Button>
       </SheetFooter>

@@ -39,6 +39,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
 export function AppSidebar() {
   const { role, user, setRole } = useRole();
@@ -64,34 +65,50 @@ export function AppSidebar() {
 
   const currentMenuItems = menuItems[role];
 
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+
   return (
-    <Sidebar variant="sidebar" collapsible="icon">
-      <SidebarHeader className="h-16 flex items-center px-6">
-        <div className="flex items-center gap-2">
-          <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
-            <GraduationCap className="h-5 w-5" />
+    <Sidebar variant="sidebar" collapsible="icon" className="border-r-0 shadow-xl">
+      <SidebarHeader className="h-20 flex items-center px-6 border-b border-border/50">
+        <div className="flex items-center gap-3">
+          <div className="bg-primary text-primary-foreground p-2 rounded-xl shadow-lg shadow-primary/20">
+            <GraduationCap className="h-6 w-6" />
           </div>
-          <span className="font-bold text-lg tracking-tight group-data-[collapsible=icon]:hidden">
-            EduGestion
-          </span>
+          <div className="flex flex-col group-data-[collapsible=icon]:hidden">
+            <span className="font-black text-xl tracking-tighter text-foreground">
+              Edu<span className="text-primary">Gestion</span>
+            </span>
+            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">v2.4.0 Professional</span>
+          </div>
         </div>
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="py-4">
         <SidebarGroup>
-          <SidebarGroupLabel className="px-6 mb-2">Menú Principal</SidebarGroupLabel>
+          <SidebarGroupLabel className="px-6 mb-4 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground/70">Principal</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
-              {currentMenuItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title} className="px-6 py-6 h-auto">
-                    <a href={item.href} className="flex items-center gap-3">
-                      <item.icon className="h-5 w-5" />
-                      <span className="font-medium">{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+            <SidebarMenu className="gap-1 px-3">
+              {currentMenuItems.map((item) => {
+                const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton 
+                      asChild 
+                      tooltip={item.title} 
+                      className={cn(
+                        "px-4 py-6 h-auto rounded-xl transition-all duration-200 group/item",
+                        isActive ? "bg-primary text-primary-foreground shadow-md shadow-primary/20" : "hover:bg-muted/80 text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      <a href={item.href} className="flex items-center gap-4">
+                        <item.icon className={cn("h-5 w-5 transition-transform group-hover/item:scale-110", isActive ? "text-primary-foreground" : "text-muted-foreground group-hover/item:text-primary")} />
+                        <span className="font-bold text-sm tracking-tight">{item.title}</span>
+                        {isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary-foreground animate-pulse" />}
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -118,18 +135,18 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      <SidebarFooter className="p-4">
+      <SidebarFooter className="p-4 border-t border-border/50 bg-muted/20">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <SidebarMenuButton className="h-auto p-2 group-data-[collapsible=icon]:p-0">
+            <SidebarMenuButton className="h-auto p-2 group-data-[collapsible=icon]:p-0 rounded-xl hover:bg-muted/80 transition-all">
               <div className="flex items-center gap-3 w-full">
-                <Avatar className="h-9 w-9 border border-border">
+                <Avatar className="h-10 w-10 border-2 border-primary/20 shadow-sm">
                   <AvatarImage src={user.avatar} />
-                  <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                  <AvatarFallback className="bg-primary/10 text-primary font-bold">{user?.name?.charAt(0) || 'U'}</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col items-start overflow-hidden group-data-[collapsible=icon]:hidden">
-                  <span className="text-sm font-semibold truncate w-full">{user.name}</span>
-                  <span className="text-xs text-muted-foreground truncate w-full">{role}</span>
+                  <span className="text-sm font-black text-foreground truncate w-full tracking-tight">{user.name}</span>
+                  <span className="text-[10px] font-bold text-primary uppercase tracking-wider">{role}</span>
                 </div>
                 <ChevronDown className="h-4 w-4 ml-auto text-muted-foreground group-data-[collapsible=icon]:hidden" />
               </div>
